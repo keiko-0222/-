@@ -80,495 +80,1209 @@
         .page-title { margin: 0 0 2px; font-size: 19px; color: #1f2940; }
         .page-subtitle { margin: 0 0 18px; font-size: 12.5px; color: #909090; }
 
-        /* ボタン */
-        .btn-demo { 
-            background: var(--primary); 
-            color: white; 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            font-size: 14px; 
-            font-weight: bold;
-            margin-bottom: 20px;
-            transition: background 0.2s;
+        /* 検索エリア */
+        .search-panel { background: #f7f8fc; border: 1px solid #e3e5f0; border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+        .search-panel.hidden { display: none; }
+        .search-panel-toggle {
+            width: 100%; display: flex; align-items: center; justify-content: space-between; background: #eef0fb;
+            border: none; padding: 10px 16px; font-size: 13px; font-weight: bold; color: var(--primary-dark);
+            cursor: pointer; letter-spacing: 0.02em;
         }
-        .btn-demo:hover { background: var(--primary-dark); }
+        .search-panel-toggle:hover { background: #e4e7fa; }
+        .search-panel-body { padding: 16px 18px; }
+        .search-panel-body.collapsed { display: none; }
+
+        /* 注文検索エリア（青系） */
+        .search-panel.theme-search { background: #f2f4fc; border-color: #d6dcf3; }
+        .search-panel.theme-search .search-panel-toggle { background: #e2e6fa; color: #3949ab; }
+        .search-panel.theme-search .search-panel-toggle:hover { background: #d5dbf6; }
+
+        /* データ取り込みエリア（オレンジ系） */
+        .search-panel.theme-import { background: #fdf6ec; border-color: #f0dcb0; }
+        .search-panel.theme-import .search-panel-toggle { background: #faecce; color: #9a6708; }
+        .search-panel.theme-import .search-panel-toggle:hover { background: #f6e0ab; }
+        .search-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+        .search-row + .search-row { margin-top: 12px; }
+        .search-label { font-size: 13px; color: #555; font-weight: bold; min-width: 84px; }
+        .field-group { display: flex; align-items: center; gap: 7px; }
+        .field-label { font-size: 12.5px; font-weight: bold; color: #555; white-space: nowrap; }
+        .select-control {
+            padding: 7px 10px; border-radius: 6px; border: 1px solid #d8dceb; background: #fff;
+            font-size: 13px; color: #333; cursor: pointer; min-width: 124px;
+        }
+        .select-control:hover { border-color: var(--primary); }
+        .select-control:focus { outline: none; border-color: var(--primary); }
+        .range-inputs { display: inline-flex; gap: 6px; align-items: center; }
+        .range-inputs input[type="date"], .range-inputs input[type="number"], .range-inputs input[type="text"] { padding: 6px 8px; border-radius: 6px; border: 1px solid #d8dceb; font-size: 13px; }
+        .range-inputs input[type="number"], .range-inputs input[type="text"] { width: 130px; }
+        .hint { font-size: 11px; color: #999; }
+        .hint-icon { cursor: help; font-size: 13px; opacity: 0.65; }
+        #searchStatus { font-size: 12px; color: #777; }
+        #searchStatus.error { color: #c0392b; font-weight: bold; }
+
+        /* ツールバー */
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 12px; flex-wrap: wrap; }
+        .result-count { font-size: 13px; color: #666; }
+        .result-count b { color: var(--primary-dark); font-size: 16px; }
+        .btn { padding: 6px 14px; border-radius: 5px; border: none; cursor: pointer; font-size: 13px; font-weight: bold; }
+        .btn-csv  { background: #27ae60; color: white; }
+        .btn-pdf  { background: #e74c3c; color: white; }
+        .btn-search { background: var(--primary); color: white; padding: 7px 18px; font-size: 13px; }
+        .btn-clear { background: #fff; color: #777; border: 1px solid #d8dceb !important; padding: 7px 16px; font-size: 13px; }
+        .btn-clear:hover { border-color: #aab4c8 !important; opacity: 1; background: #f4f5f9; }
+        .btn:hover { opacity: 0.85; }
+        .bulk-area { display: flex; gap: 8px; align-items: center; }
+        .bulk-area span { font-size: 13px; color: #777; }
+
+        /* テーブル */
+        .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #eceff5; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: #34495e; color: white; padding: 10px 12px; text-align: left; white-space: nowrap; }
+        td { padding: 10px 12px; border-bottom: 1px solid #e8e8e8; vertical-align: middle; }
+        tr:hover td { background: #f7f9ff; }
+
+        /* バッジ */
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; color: white; }
+        .bg-fast   { background: #27ae60; }
+        .bg-ticket { background: #e67e22; }
+
+        /* お客様番号セル */
+        .id-cell { display: flex; flex-direction: column; gap: 4px; }
+        .id-cell .id-top { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+        .id-num { font-weight: bold; font-size: 13px; }
+        .btn-xs { padding: 2px 7px; border-radius: 3px; border: none; cursor: pointer; font-size: 11px; font-weight: bold; color: white; }
+        .btn-xs.csv  { background: #27ae60; }
+        .btn-xs.pdf  { background: #c0392b; }
+        .btn-xs:hover { opacity: 0.8; }
+
+        /* ステータス */
+        select { padding: 5px 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px; width: 100%; }
+
+        /* 操作列 */
+        .action-cell { display: flex; gap: 6px; align-items: center; white-space: nowrap; }
+
+        /* チャットアイコン */
+        .chat-icon { font-size: 22px; cursor: pointer; color: #aaa; transition: color 0.2s; }
+        .chat-icon:hover { color: var(--primary); }
 
         /* モーダル */
-        .modal-overlay { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.55); 
-            z-index: 1000; 
-            justify-content: center; 
-            align-items: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .modal-overlay.open { 
-            display: flex; 
-        }
-        .modal { 
-            background: white; 
-            border-radius: 12px; 
-            width: 100%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow-y: auto; 
-            padding: 0; 
-            position: relative; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            margin: auto;
-        }
-        .modal-close { 
-            position: absolute; 
-            top: 14px; 
-            right: 16px; 
-            font-size: 20px; 
-            cursor: pointer; 
-            color: #fff; 
-            border: none; 
-            background: none; 
-            z-index: 10; 
-            opacity: 0.8; 
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); z-index: 1000; justify-content: center; align-items: flex-start; padding-top: 40px; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: white; border-radius: 12px; width: 92%; max-width: 900px; max-height: 85vh; overflow-y: auto; padding: 0; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+        .modal-close { position: absolute; top: 14px; right: 16px; font-size: 20px; cursor: pointer; color: #fff; border: none; background: none; z-index: 10; opacity: 0.8; }
         .modal-close:hover { opacity: 1; }
 
         /* モーダルヘッダー */
-        .modal-header { 
-            background: linear-gradient(135deg, #5c6bc0, #3949ab); 
-            padding: 18px 24px 14px; 
-            border-radius: 12px 12px 0 0; 
-        }
-        .modal-header h3 { 
-            margin: 6px 0 0; 
-            color: white; 
-            font-size: 16px; 
-        }
-        .modal-nav { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        }
-        .nav-btn { 
-            padding: 4px 14px; 
-            border-radius: 20px; 
-            border: 1px solid rgba(255,255,255,0.5); 
-            background: rgba(255,255,255,0.15); 
-            color: white; 
-            font-size: 12px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-        }
+        .modal-header { background: linear-gradient(135deg, #5c6bc0, #3949ab); padding: 18px 24px 14px; border-radius: 12px 12px 0 0; }
+        .modal-header h3 { margin: 6px 0 0; color: white; font-size: 16px; }
+        .modal-nav { display: flex; align-items: center; gap: 10px; }
+        .nav-btn { padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: white; font-size: 12px; cursor: pointer; transition: 0.2s; }
         .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,0.3); }
         .nav-btn:disabled { opacity: 0.3; cursor: default; }
-        .nav-label { 
-            font-size: 12px; 
-            color: rgba(255,255,255,0.85); 
-            flex: 1; 
-            text-align: center; 
-        }
+        .nav-label { font-size: 12px; color: rgba(255,255,255,0.85); flex: 1; text-align: center; }
 
         /* モーダル本文 */
-        .modal-body-inner { 
-            padding: 20px 24px 24px; 
-        }
+        .modal-body-inner { padding: 20px 24px 24px; }
 
         /* カードグリッド */
-        .detail-cards { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            margin-bottom: 16px; 
-        }
-        .detail-card { 
-            background: #f8f9fc; 
-            border: 1px solid #e8eaf0; 
-            border-radius: 8px; 
-            padding: 14px 16px; 
-        }
-        .detail-card.full { 
-            grid-column: 1 / -1; 
-        }
-        .detail-card h4 { 
-            font-size: 11px; 
-            font-weight: bold; 
-            color: #5c6bc0; 
-            text-transform: uppercase; 
-            letter-spacing: 0.08em; 
-            margin: 0 0 10px; 
-            padding-bottom: 6px; 
-            border-bottom: 1px solid #e0e3f0; 
-        }
-        .detail-row { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: baseline; 
-            padding: 4px 0; 
-            border-bottom: 1px dotted #eee; 
-            font-size: 13px; 
-        }
-        .detail-row:last-child { 
-            border-bottom: none; 
-        }
-        .detail-row .lbl { 
-            color: #888; 
-            font-size: 12px; 
-            min-width: 90px; 
-        }
-        .detail-row .val { 
-            font-weight: bold; 
-            color: #2c3e50; 
-            text-align: right; 
-            word-break: break-all; 
-        }
-        .detail-row .val.highlight { 
-            color: #5c6bc0; 
-            font-size: 15px; 
-        }
+        .detail-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .detail-card { background: #f8f9fc; border: 1px solid #e8eaf0; border-radius: 8px; padding: 14px 16px; }
+        .detail-card.full { grid-column: 1 / -1; }
+        .detail-card h4 { font-size: 11px; font-weight: bold; color: #5c6bc0; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e0e3f0; }
+        .detail-row { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; border-bottom: 1px dotted #eee; font-size: 13px; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row .lbl { color: #888; font-size: 12px; min-width: 90px; }
+        .detail-row .val { font-weight: bold; color: #2c3e50; text-align: right; word-break: break-all; }
+        .detail-row .val.highlight { color: #5c6bc0; font-size: 15px; }
 
-        /* ===== 複数送り先表示用スタイル ===== */
-        .delivery-destinations-container {
-            background: #f8f9fc;
-            border: 1px solid #e8eaf0;
-            border-radius: 8px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
-        }
-        
-        .delivery-destinations-container h4 {
-            font-size: 11px;
-            font-weight: bold;
-            color: #5c6bc0;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin: 0 0 12px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid #e0e3f0;
-        }
+        /* 商品テーブル */
+        .detail-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+        .detail-table th { background: #34495e; color: white; padding: 8px 10px; text-align: left; font-size: 12px; }
+        .detail-table td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+        .detail-table tr:last-child td { border-bottom: none; }
+        .detail-table tr:nth-child(even) td { background: #fafbfc; }
 
-        /* 送り先リスト - グリッドレイアウト */
-        .destinations-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
+        /* 商品ごとの送り先が異なる場合の警告表示 */
+        .detail-card.ship-conflict { border: 1px solid #f0b8af; background: #fdf3f1; }
+        .ship-warn-badge {
+            display: inline-block; font-size: 10.5px; font-weight: bold; color: #c0392b; background: #fbe0db;
+            padding: 2px 8px; border-radius: 10px; margin-left: 8px; letter-spacing: 0; text-transform: none; vertical-align: middle;
         }
+        .ship-warn-note { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #f0b8af; font-size: 11.5px; color: #c0392b; font-weight: bold; }
+        .ship-tag { display: inline-block; font-size: 11.5px; padding: 3px 8px; border-radius: 4px; background: #fbe0db; color: #c0392b; font-weight: bold; cursor: help; }
+        tr.ship-diff-row td { background: #fdf3f1 !important; }
+        .total-bar { background: #eef0fb; border-radius: 6px; padding: 10px 16px; text-align: right; font-size: 15px; font-weight: bold; color: #3949ab; margin-top: 10px; }
+        .billing-bar { background: #f3f0fb; border-radius: 6px; padding: 10px 16px; text-align: right; font-size: 15px; font-weight: bold; color: #5c6bc0; margin-top: 6px; }
 
-        /* 送り先カード */
-        .destination-item {
-            background: white;
-            border: 1px solid #d8dceb;
-            border-radius: 6px;
-            padding: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .destination-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 2px 8px rgba(92, 107, 192, 0.15);
-        }
-
-        /* 送り先番号バッジ */
-        .destination-number {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 3px 10px;
-            border-radius: 3px;
-            margin-bottom: 10px;
-        }
-
-        /* 送り先情報 */
-        .destination-info {
+        /* 複数送り先表示用スタイル */
+        .ship-list {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 12px;
         }
-
-        /* 送り先フィールド */
-        .destination-field {
+        .ship-container {
+            background: #f8f9fc;
+            border: 1px solid #e0e3f0;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+        .ship-container.primary {
+            border-left: 4px solid #5c6bc0;
+            background: #f2f4fc;
+        }
+        .ship-container.alternate {
+            border-left: 4px solid #e67e22;
+            background: #fdf6ec;
+        }
+        .ship-container h5 {
+            margin: 0 0 12px 0;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ship-container .primary-badge {
+            display: inline-block;
+            background: #5c6bc0;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+        .ship-container .alternate-badge {
+            display: inline-block;
+            background: #e67e22;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+        .ship-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 8px;
-            padding: 3px 0;
-            border-bottom: 1px dotted #e8e8e8;
-            font-size: 12px;
+            padding: 6px 0;
+            border-bottom: 1px solid #e8e8e8;
+            font-size: 13px;
         }
-
-        .destination-field:last-of-type {
+        .ship-row:last-child {
             border-bottom: none;
         }
-
-        .destination-field-label {
+        .ship-row-label {
             color: #888;
             font-weight: bold;
-            min-width: 60px;
-            flex-shrink: 0;
+            min-width: 70px;
+            font-size: 12px;
         }
-
-        .destination-field-value {
+        .ship-row-value {
             color: #2c3e50;
+            font-weight: bold;
             text-align: right;
             flex: 1;
             word-break: break-word;
+            margin-left: 16px;
         }
 
-        /* ステータスバッジ */
-        .destination-status {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 3px;
-            font-size: 10px;
-            font-weight: bold;
-            color: white;
-            margin-top: 8px;
-        }
-
-        .destination-status.ready { background: #27ae60; }
-        .destination-status.pending { background: #f59e0b; }
-        .destination-status.shipped { background: #3b82f6; }
-        .destination-status.delivered { background: #22c55e; }
+        /* 行クリック */
+        tbody tr { cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="app-shell">
-        <!-- ヘッダー -->
-        <header class="app-header">
-            <div class="app-header-left">
-                <div class="app-logo">📊</div>
-                <div class="app-title">
-                    EC一元管理システム
-                    <small>進捗管理一覧</small>
+<div class="app-shell">
+
+    <!-- ヘッダー -->
+    <header class="app-header">
+        <div class="app-header-left">
+            <span class="app-logo">📦</span>
+            <div class="app-title">EC一元管理システム<small>ORDER MANAGEMENT CONSOLE</small></div>
+        </div>
+        <div class="app-header-right">
+            <span class="header-channel-badge">対象モール: <span id="headerChannelBadge">4you</span></span>
+            <span class="header-user">👤 担当者ログイン中</span>
+        </div>
+    </header>
+
+    <div class="app-body">
+
+        <!-- サイドバー：ステータス -->
+        <aside class="sidebar">
+            <div class="sidebar-section-title">受注ステータス</div>
+            <nav class="status-nav" id="statusNav">
+                <div class="status-item active" data-status="すべて" onclick="filterData('すべて', this)">
+                    <span class="status-dot dot-all"></span>
+                    <span class="status-name">すべて</span>
+                    <span class="status-count" id="cnt-all">0</span>
                 </div>
-            </div>
-            <div class="app-header-right">
-                <div class="header-channel-badge">Amazon</div>
-                <div class="header-user">
-                    <span>👤</span>
-                    <span>管理者</span>
+                <div class="status-item" data-status="受注" onclick="filterData('受注', this)">
+                    <span class="status-dot dot-1"></span>
+                    <span class="status-name">受注</span>
+                    <span class="status-count" id="cnt-1">0</span>
                 </div>
-            </div>
-        </header>
-
-        <!-- ボディ -->
-        <div class="app-body">
-            <!-- サイドバー -->
-            <aside class="sidebar">
-                <div class="sidebar-section-title">進捗状態</div>
-                <nav class="status-nav">
-                    <div class="status-item active">
-                        <span class="status-dot dot-all"></span>
-                        <span class="status-name">すべて</span>
-                        <span class="status-count">24</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-dot dot-1"></span>
-                        <span class="status-name">受注確認待ち</span>
-                        <span class="status-count">3</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-dot dot-2"></span>
-                        <span class="status-name">キット送付待ち</span>
-                        <span class="status-count">5</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-dot dot-3"></span>
-                        <span class="status-name">キット配送中</span>
-                        <span class="status-count">8</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-dot dot-4"></span>
-                        <span class="status-name">回収待ち</span>
-                        <span class="status-count">4</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-dot dot-5"></span>
-                        <span class="status-name">回収配送中</span>
-                        <span class="status-count">2</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-dot dot-6"></span>
-                        <span class="status-name">完了</span>
-                        <span class="status-count">2</span>
-                    </div>
-                </nav>
-
-                <div class="sidebar-divider"></div>
-                <div class="sidebar-foot">
-                    <strong>ヒント:</strong> 各ステータスをクリックして、進捗状態別に絞り込めます。
+                <div class="status-item" data-status="返信待ち" onclick="filterData('返信待ち', this)">
+                    <span class="status-dot dot-2"></span>
+                    <span class="status-name">返信待ち</span>
+                    <span class="status-count" id="cnt-2">0</span>
                 </div>
-            </aside>
+                <div class="status-item" data-status="修正・デザイン中" onclick="filterData('修正・デザイン中', this)">
+                    <span class="status-dot dot-3"></span>
+                    <span class="status-name">修正・デザイン中</span>
+                    <span class="status-count" id="cnt-3">0</span>
+                </div>
+                <div class="status-item" data-status="作成・出荷待ち" onclick="filterData('作成・出荷待ち', this)">
+                    <span class="status-dot dot-4"></span>
+                    <span class="status-name">作成・出荷待ち</span>
+                    <span class="status-count" id="cnt-4">0</span>
+                </div>
+                <div class="status-item" data-status="発送処理中" onclick="filterData('発送処理中', this)">
+                    <span class="status-dot dot-5"></span>
+                    <span class="status-name">発送処理中</span>
+                    <span class="status-count" id="cnt-5">0</span>
+                </div>
+                <div class="status-item" data-status="発送済み" onclick="filterData('発送済み', this)">
+                    <span class="status-dot dot-6"></span>
+                    <span class="status-name">発送済み</span>
+                    <span class="status-count" id="cnt-6">0</span>
+                </div>
+            </nav>
+            <div class="sidebar-divider"></div>
+            <div class="sidebar-foot">ステータスをクリックすると<br>一覧が絞り込まれます。</div>
+        </aside>
 
-            <!-- メインコンテンツ -->
-            <main class="main-content">
-                <div class="content-card">
-                    <h1 class="page-title">進捗管理一覧</h1>
-                    <p class="page-subtitle">注文の進捗状況をリアルタイムで管理・追跡できます</p>
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <div class="content-card">
+                <h1 class="page-title">進捗管理一覧</h1>
+                <p class="page-subtitle">全モールの受注状況をステータス別に一元管理します</p>
 
-                    <!-- デモボタン -->
-                    <button class="btn-demo" onclick="openDetailModal()">📋 詳細を表示（複数送り先の例）</button>
-
-                    <!-- 詳細モーダル -->
-                    <div class="modal-overlay" id="detailModal">
-                        <div class="modal">
-                            <button class="modal-close" onclick="closeModal()">✕</button>
-                            
-                            <div class="modal-header">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <h3>注文詳細</h3>
-                                    <div class="modal-nav">
-                                        <button class="nav-btn" onclick="prevDetail()">◀ 前へ</button>
-                                        <span class="nav-label" id="navLabel">1 / 5</span>
-                                        <button class="nav-btn" onclick="nextDetail()">次へ ▶</button>
-                                    </div>
-                                </div>
+                <!-- 注文検索エリア：取り込み済みの注文をステータス横断でキーワード・期間検索。常時表示 -->
+                <div class="search-panel theme-search" id="resultSearchPanel">
+                    <button type="button" class="search-panel-toggle" onclick="toggleResultSearchPanel()">
+                        <span>🔍 注文検索</span>
+                        <span id="resultSearchToggleIcon">▾ 閉じる</span>
+                    </button>
+                    <div class="search-panel-body" id="resultSearchPanelBody">
+                        <div class="search-row">
+                            <div class="field-group">
+                                <label class="field-label" for="searchSiteSelect">サイト</label>
+                                <select class="select-control" id="searchSiteSelect">
+                                    <option value="">すべて</option>
+                                    <option value="4you">4you</option>
+                                    <option value="yahoo">Yahoo</option>
+                                    <option value="オフィシャル">オフィシャル</option>
+                                    <option value="アマゾン">アマゾン</option>
+                                    <option value="ギフトモール">ギフトモール</option>
+                                    <option value="うちのこいちばん">うちのこいちばん</option>
+                                    <option value="ふるさと納税">ふるさと納税</option>
+                                    <option value="社内">社内</option>
+                                </select>
                             </div>
-
-                            <div class="modal-body-inner">
-                                <!-- 基本情報 -->
-                                <div class="detail-cards">
-                                    <div class="detail-card">
-                                        <h4>注文基本情報</h4>
-                                        <div class="detail-row">
-                                            <span class="lbl">注文ID:</span>
-                                            <span class="val" id="modalOrderId">ORD-2025-001234</span>
-                                        </div>
-                                        <div class="detail-row">
-                                            <span class="lbl">顧客名:</span>
-                                            <span class="val" id="modalCustomerName">山田太郎様</span>
-                                        </div>
-                                        <div class="detail-row">
-                                            <span class="lbl">注文日:</span>
-                                            <span class="val" id="modalOrderDate">2025-01-15</span>
-                                        </div>
-                                    </div>
-                                    <div class="detail-card">
-                                        <h4>ステータス</h4>
-                                        <div class="detail-row">
-                                            <span class="lbl">現在:</span>
-                                            <span class="val" id="modalStatus">キット配送中</span>
-                                        </div>
-                                        <div class="detail-row">
-                                            <span class="lbl">進捗:</span>
-                                            <span class="val" id="modalProgress">60%</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 複数送り先表示セクション -->
-                                <div class="delivery-destinations-container">
-                                    <h4>🚚 キット送り先</h4>
-                                    <div class="destinations-list" id="destinationsList">
-                                        <!-- 送り先 1 -->
-                                        <div class="destination-item">
-                                            <span class="destination-number">送り先 1</span>
-                                            <div class="destination-info">
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">宛先名:</span>
-                                                    <span class="destination-field-value">東京営業所</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">住所:</span>
-                                                    <span class="destination-field-value">東京都渋谷区1-1-1 ビル5F</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">電話:</span>
-                                                    <span class="destination-field-value">03-XXXX-XXXX</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">数量:</span>
-                                                    <span class="destination-field-value">5個</span>
-                                                </div>
-                                                <span class="destination-status ready">✓ 配準完了</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- 送り先 2 -->
-                                        <div class="destination-item">
-                                            <span class="destination-number">送り先 2</span>
-                                            <div class="destination-info">
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">宛先名:</span>
-                                                    <span class="destination-field-value">大阪支店</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">住所:</span>
-                                                    <span class="destination-field-value">大阪府北区2-2-2 センター3F</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">電話:</span>
-                                                    <span class="destination-field-value">06-YYYY-YYYY</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">数量:</span>
-                                                    <span class="destination-field-value">3個</span>
-                                                </div>
-                                                <span class="destination-status shipped">📦 配送中</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- 送り先 3 -->
-                                        <div class="destination-item">
-                                            <span class="destination-number">送り先 3</span>
-                                            <div class="destination-info">
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">宛先名:</span>
-                                                    <span class="destination-field-value">名古屋営業拠点</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">住所:</span>
-                                                    <span class="destination-field-value">愛知県中区3-3-3 パーク2F</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">電話:</span>
-                                                    <span class="destination-field-value">052-ZZZZ-ZZZZ</span>
-                                                </div>
-                                                <div class="destination-field">
-                                                    <span class="destination-field-label">数量:</span>
-                                                    <span class="destination-field-value">2個</span>
-                                                </div>
-                                                <span class="destination-status pending">⏳ 準備待ち</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="field-group" style="flex:1; min-width:240px;">
+                                <label class="field-label" for="searchKeyword">キーワード</label>
+                                <input type="text" id="searchKeyword" class="select-control" style="width:100%;"
+                                       placeholder="お客様番号・楽天№・ご注文者名・備考 で検索"
+                                       onkeydown="if(event.key==='Enter') applyTableSearch()">
                             </div>
+                            <span class="range-inputs">
+                                <label class="field-label">注文日</label>
+                                <input type="date" id="searchDateFrom" onkeydown="if(event.key==='Enter') applyTableSearch()">
+                                〜
+                                <input type="date" id="searchDateTo" onkeydown="if(event.key==='Enter') applyTableSearch()">
+                            </span>
+                            <div class="field-group">
+                                <label class="field-label" for="searchGroupSelect">グループ</label>
+                                <select class="select-control" id="searchGroupSelect">
+                                    <option value="">すべて</option>
+                                    <option value="1">⚡ 即発送</option>
+                                    <option value="2">🎫 お仕立券</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-search" onclick="applyTableSearch()">🔍 検索</button>
+                            <button class="btn btn-clear" onclick="clearTableSearch()">クリア</button>
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+
+                <!-- データ取り込みパネル：Excel（集計表シート）から新規受注を取り込んでこのシステムに反映。受注ステータス選択時のみ表示 -->
+                <div class="search-panel hidden theme-import" id="importPanel">
+                    <button type="button" class="search-panel-toggle" onclick="toggleSearchPanel()">
+                        <span>📥 データ取り込み（Excel連携）</span>
+                        <span id="searchToggleIcon">▾ 閉じる</span>
+                    </button>
+                    <div class="search-panel-body" id="searchPanelBody">
+                        <div class="search-row">
+                            <div class="field-group">
+                                <label class="field-label" for="channelSelect">対象モール</label>
+                                <select class="select-control" id="channelSelect">
+                                    <option value="4you" selected>4you</option>
+                                    <option value="yahoo">Yahoo</option>
+                                    <option value="オフィシャル">オフィシャル</option>
+                                    <option value="アマゾン">アマゾン</option>
+                                    <option value="ギフトモール">ギフトモール</option>
+                                    <option value="うちのこいちばん">うちのこいちばん</option>
+                                    <option value="ふるさと納税">ふるさと納税</option>
+                                    <option value="社内">社内</option>
+                                </select>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label" for="searchModeSelect">取込条件</label>
+                                <select class="select-control" id="searchModeSelect" onchange="toggleSearchMode()">
+                                    <option value="date" selected>注文日で取り込み</option>
+                                    <option value="id">お客様番号で取り込み</option>
+                                </select>
+                            </div>
+                            <span class="range-inputs" id="dateInputs">
+                                <input type="date" id="dateFrom">
+                                〜
+                                <input type="date" id="dateTo">
+                                <span class="hint-icon" title="同じ日付を入れれば1日だけの取り込みになります">ℹ️</span>
+                            </span>
+                            <span class="range-inputs" id="idInputs" style="display:none;">
+                                <input type="text" id="idFrom" placeholder="お客様番号 From">
+                                〜
+                                <input type="text" id="idTo" placeholder="お客様番号 To">
+                                <span class="hint-icon" title="数字のみ／アルファベット始まりの番号、どちらも検索できます">ℹ️</span>
+                            </span>
+                            <button class="btn btn-search" onclick="searchOrders()" title="Excelから条件に一致する新規受注を取り込み、システムに反映します">📥 取り込む</button>
+                            <button class="btn btn-clear" onclick="clearImportPanel()">クリア</button>
+                            <span id="searchStatus"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ツールバー -->
+                <div class="toolbar">
+                    <div class="result-count">表示件数：<b id="resultCount">0</b> 件</div>
+                    <div class="bulk-area">
+                        <span id="bulkCount">0件選択中</span>
+                        <button class="btn btn-csv" onclick="bulkExportCSV()">📥 一括CSV出力</button>
+                        <button class="btn btn-pdf" onclick="bulkExportPDF()">🖨 一括PDF出力</button>
+                        <button class="btn" style="background:#c0392b;color:white;" onclick="bulkDelete()">🗑 チェックした行を一括削除</button>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
+                                <th>お客様番号</th>
+                                <th>楽天№</th>
+                                <th>注文日</th>
+                                <th>ご注文者</th>
+                                <th>注文数</th>
+                                <th>ステータス</th>
+                                <th>操作</th>
+                                <th>チャット</th>
+                                <th>削除</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
     </div>
+</div>
 
-    <script>
-        function closeModal() {
-            document.getElementById('detailModal').classList.remove('open');
-        }
+<!-- 詳細モーダル -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <!-- ナビゲーションヘッダー -->
+        <div class="modal-header">
+            <div class="modal-nav">
+                <button class="nav-btn" id="navPrev" onclick="navigateDetail(-1)">◀ 前へ</button>
+                <span id="navLabel" class="nav-label"></span>
+                <button class="nav-btn" id="navNext" onclick="navigateDetail(1)">次へ ▶</button>
+            </div>
+            <h3 id="modalTitle">注文詳細</h3>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
 
-        function openDetailModal() {
-            document.getElementById('detailModal').classList.add('open');
-        }
+<script>
+    let orderData = [];
+    let currentFilter = 'すべて';
+    const STATUS_LIST = ['受注','返信待ち','修正・デザイン中','作成・出荷待ち','発送処理中','発送済み'];
 
-        function prevDetail() {
-            console.log('前へ');
-        }
+    // 注文検索エリア（全ステータス共通）の現在の検索条件
+    let tableSearch = { site: '', keyword: '', dateFrom: '', dateTo: '', group: '' };
 
-        function nextDetail() {
-            console.log('次へ');
-        }
+    // ヘッダーのモールバッジをセレクト選択に同期
+    document.getElementById('channelSelect').addEventListener('change', (e) => {
+        document.getElementById('headerChannelBadge').textContent = e.target.value;
+    });
 
-        // ESCキーでモーダルを閉じる
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+    // データ取り込みパネルの開閉
+    function toggleSearchPanel() {
+        const body = document.getElementById('searchPanelBody');
+        const icon = document.getElementById('searchToggleIcon');
+        const collapsed = body.classList.toggle('collapsed');
+        icon.textContent = collapsed ? '▸ 開く' : '▾ 閉じる';
+    }
+
+    // 注文検索エリアの開閉
+    function toggleResultSearchPanel() {
+        const body = document.getElementById('resultSearchPanelBody');
+        const icon = document.getElementById('resultSearchToggleIcon');
+        const collapsed = body.classList.toggle('collapsed');
+        icon.textContent = collapsed ? '▸ 開く' : '▾ 閉じる';
+    }
+
+    // 注文検索エリア：入力値を読み取って一覧に反映（全ステータス共通／現在のステータス絞り込みと併用）
+    function applyTableSearch() {
+        tableSearch = {
+            site: document.getElementById('searchSiteSelect').value,
+            keyword: document.getElementById('searchKeyword').value.trim().toLowerCase(),
+            dateFrom: document.getElementById('searchDateFrom').value,
+            dateTo: document.getElementById('searchDateTo').value,
+            group: document.getElementById('searchGroupSelect').value
+        };
+        document.getElementById('selectAll').checked = false;
+        renderTable(getFilteredData());
+    }
+
+    // 注文検索エリア：条件をクリアして全件表示に戻す
+    function clearTableSearch() {
+        document.getElementById('searchSiteSelect').value = '';
+        document.getElementById('searchKeyword').value = '';
+        document.getElementById('searchDateFrom').value = '';
+        document.getElementById('searchDateTo').value = '';
+        document.getElementById('searchGroupSelect').value = '';
+        tableSearch = { site: '', keyword: '', dateFrom: '', dateTo: '', group: '' };
+        renderTable(getFilteredData());
+    }
+
+    // サイドバーのステータス件数を更新
+    function updateSidebarCounts() {
+        document.getElementById('cnt-all').textContent = orderData.length;
+        STATUS_LIST.forEach((s, i) => {
+            const el = document.getElementById('cnt-' + (i + 1));
+            if (el) el.textContent = orderData.filter(o => o.status === s).length;
         });
-    </script>
+    }
+
+    // ---- 起動時にサーバーから保存済みデータを読み込む ----
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const res = await fetch('/api/saved-orders');
+            const data = await res.json();
+            if (data.orders && data.orders.length > 0) {
+                orderData = data.orders;
+                renderTable(getFilteredData());
+                document.getElementById('searchStatus').textContent = `保存済みデータ ${orderData.length} 件を読み込みました`;
+            } else {
+                updateSidebarCounts();
+            }
+        } catch (e) { /* 無視 */ }
+    });
+
+    // ---- データをサーバーに保存 ----
+    async function saveOrders() {
+        try {
+            await fetch('/api/saved-orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orders: orderData })
+            });
+        } catch (e) { /* 保存失敗は静かに無視 */ }
+    }
+
+    // 楽天№をキーに既存データとマージ（現在のorderDataにない注文のみ追加）
+    function mergeOrders(incoming) {
+        const existingNos = new Set(orderData.map(o => o.no));
+        let added = 0, skipped = 0;
+        for (const o of incoming) {
+            if (existingNos.has(o.no)) {
+                skipped++;
+            } else {
+                orderData.push(o);
+                added++;
+            }
+        }
+        return { added, skipped };
+    }
+
+    // 注文を1件削除
+    async function deleteOrder(no) {
+        if (!confirm(`楽天№「${no}」を一覧から削除してよろしいですか？`)) return;
+        orderData = orderData.filter(o => o.no !== no);
+        renderTable(getFilteredData());
+        await saveOrders();
+    }
+
+    // チェックした行を一括削除
+    async function bulkDelete() {
+        const targets = getCheckedOrders();
+        if (!targets.length) { alert('チェックされた注文がありません'); return; }
+        if (!confirm(`チェックした ${targets.length} 件を削除してよろしいですか？\nこの操作は元に戻せません。`)) return;
+        const targetNos = new Set(targets.map(o => o.no));
+        orderData = orderData.filter(o => !targetNos.has(o.no));
+        renderTable(getFilteredData());
+        await saveOrders();
+    }
+
+    // ---- Excel検索（Node.jsサーバー経由） ----
+    function toggleSearchMode() {
+        const mode = document.getElementById('searchModeSelect').value;
+        document.getElementById('dateInputs').style.display = mode === 'date' ? 'inline-flex' : 'none';
+        document.getElementById('idInputs').style.display = mode === 'id' ? 'inline-flex' : 'none';
+    }
+
+    // データ取り込みエリア：入力条件とステータス表示をクリア
+    function clearImportPanel() {
+        document.getElementById('channelSelect').value = '4you';
+        document.getElementById('searchModeSelect').value = 'date';
+        document.getElementById('dateFrom').value = '';
+        document.getElementById('dateTo').value = '';
+        document.getElementById('idFrom').value = '';
+        document.getElementById('idTo').value = '';
+        document.getElementById('searchStatus').className = '';
+        document.getElementById('searchStatus').textContent = '';
+        toggleSearchMode();
+    }
+
+    async function searchOrders() {
+        const channel = document.getElementById('channelSelect').value;
+        const mode = document.getElementById('searchModeSelect').value;
+        const params = new URLSearchParams({ channel, mode });
+
+        if (mode === 'date') {
+            const from = document.getElementById('dateFrom').value;
+            const to = document.getElementById('dateTo').value || from;
+            if (!from) { alert('注文日を指定してください'); return; }
+            params.set('from', from);
+            params.set('to', to);
+        } else {
+            const from = document.getElementById('idFrom').value;
+            const to = document.getElementById('idTo').value || from;
+            if (!from) { alert('お客様番号を指定してください'); return; }
+            params.set('from', from);
+            params.set('to', to);
+        }
+
+        const statusEl = document.getElementById('searchStatus');
+        statusEl.className = '';
+        statusEl.textContent = '取り込み中…';
+
+        try {
+            const res = await fetch('/api/orders?' + params.toString());
+            const data = await res.json();
+            if (!res.ok) {
+                statusEl.className = 'error';
+                statusEl.textContent = data.error || '取り込みに失敗しました';
+                return;
+            }
+            const { added, skipped } = mergeOrders(data.orders);
+            document.getElementById('selectAll').checked = false;
+            renderTable(getFilteredData());
+            const fileNote = (data.matchedFiles && data.matchedFiles.length)
+                ? `参照ファイル: ${data.matchedFiles.join('、')}`
+                : '';
+            statusEl.textContent = `${added} 件取り込み（重複スキップ: ${skipped} 件）。合計 ${orderData.length} 件。${fileNote}`;
+            await saveOrders();
+        } catch (err) {
+            statusEl.className = 'error';
+            statusEl.textContent = 'サーバーに接続できませんでした。start.bat でサーバーを起動しているか確認してください。';
+        }
+    }
+
+    function getFilteredData() {
+        let data = currentFilter === 'すべて' ? orderData : orderData.filter(o => o.status === currentFilter);
+
+        // 注文検索エリアの条件を追加で適用
+        if (tableSearch.site) {
+            data = data.filter(o => (o.channel || o.site || '') === tableSearch.site);
+        }
+        if (tableSearch.keyword) {
+            const kw = tableSearch.keyword;
+            data = data.filter(o =>
+                (o.id || '').toLowerCase().includes(kw) ||
+                (o.no || '').toLowerCase().includes(kw) ||
+                (o.name || '').toLowerCase().includes(kw) ||
+                (o.note || '').toLowerCase().includes(kw)
+            );
+        }
+        if (tableSearch.dateFrom) {
+            data = data.filter(o => o.date && o.date >= tableSearch.dateFrom);
+        }
+        if (tableSearch.dateTo) {
+            data = data.filter(o => o.date && o.date <= tableSearch.dateTo);
+        }
+        if (tableSearch.group) {
+            data = data.filter(o => o.group === tableSearch.group);
+        }
+        return data;
+    }
+
+    function renderTable(data) {
+        const body = document.getElementById('tableBody');
+        body.innerHTML = data.map((o) => {
+            const csvSent = o.csvSent || false;
+            const pdfSent = o.pdfSent || false;
+            const csvStyle = csvSent ? 'opacity:0.4;cursor:default;pointer-events:none;' : '';
+            const pdfStyle = pdfSent ? 'opacity:0.4;cursor:default;pointer-events:none;' : '';
+
+            const pdfBadge = o.group === '2'
+                ? `<button class="btn-xs pdf" style="${pdfStyle}" ${pdfSent ? 'disabled' : `onclick="event.stopPropagation();exportOnePDF('${o.no}')"`} title="${pdfSent ? 'PDF出力済み' : 'PDFを出力'}">PDF</button>`
+                : '';
+
+            const actionBtns = o.group === '2'
+                ? `<button class="btn btn-csv" onclick="event.stopPropagation();exportOneCSV('${o.no}')">CSV</button>
+                   <button class="btn btn-pdf" onclick="event.stopPropagation();exportOnePDF('${o.no}')">PDF</button>`
+                : `<button class="btn btn-csv" onclick="event.stopPropagation();exportOneCSV('${o.no}')">CSV</button>`;
+
+            return `
+            <tr onclick="openDetail('${o.no}')" style="cursor:pointer;">
+                <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" data-no="${o.no}" onchange="updateBulkCount()"></td>
+                <td>
+                    <div class="id-cell">
+                        <div class="id-top">
+                            <span class="id-num">${o.id || ''}</span>
+                            <button class="btn-xs csv" style="${csvStyle}" ${csvSent ? 'disabled' : `onclick="event.stopPropagation();exportOneCSV('${o.no}')"`} title="${csvSent ? 'CSV出力済み' : 'CSVを出力'}">CSV</button>
+                            ${pdfBadge}
+                        </div>
+                    </div>
+                </td>
+                <td>${o.no}</td>
+                <td>${o.date}</td>
+                <td><strong>${o.name}</strong> 様</td>
+                <td style="text-align:center;">${o.qty}</td>
+                <td onclick="event.stopPropagation()">
+                    <select onchange="updateStatus('${o.no}', this.value, this)">
+                        ${STATUS_LIST.map(s =>
+                            `<option ${o.status === s ? 'selected' : ''}>${s}</option>`
+                        ).join('')}
+                    </select>
+                </td>
+                <td class="action-cell" onclick="event.stopPropagation()">${actionBtns}</td>
+                <td style="text-align:center;" onclick="event.stopPropagation()">
+                    <span class="chat-icon" title="チャット" onclick="openChat('${o.no}')">💬</span>
+                </td>
+                <td style="text-align:center;" onclick="event.stopPropagation()">
+                    <span style="font-size:20px;cursor:pointer;color:#ccc;" title="削除" onclick="deleteOrder('${o.no}')" onmouseover="this.style.color='#e74c3c'" onmouseout="this.style.color='#ccc'">🗑</span>
+                </td>
+            </tr>`;
+        }).join('');
+        document.getElementById('resultCount').textContent = data.length;
+        updateBulkCount();
+        updateSidebarCounts();
+    }
+
+    // ---- 詳細モーダル（同一お客様番号ナビゲーション付き） ----
+    let detailGroup = [];   // 同一お客様番号の注文リスト
+    let detailIndex = 0;   // 現在表示中のインデックス
+
+    function openDetail(no) {
+        const clicked = orderData.find(x => x.no === no);
+        if (!clicked) return;
+        // 同じお客様番号の注文を抽出（注文日順）
+        detailGroup = orderData
+            .filter(x => x.id === clicked.id)
+            .sort((a, b) => a.date.localeCompare(b.date));
+        detailIndex = detailGroup.findIndex(x => x.no === no);
+        renderDetailModal();
+        document.getElementById('detailModal').classList.add('open');
+    }
+
+    function navigateDetail(dir) {
+        detailIndex += dir;
+        renderDetailModal();
+    }
+
+    // 商品（item）の送り先を解決する。J～M列が空の行＝注文の代表送り先と同じ。
+    // 値が入っている項目だけ上書きする（一部の列だけ入力されているケースにも対応）。
+    // item が無い（注文自体の送り先を見たい）場合は null を渡せば o の値だけが使われる。
+    function getItemShip(item, o) {
+        const pick = key => {
+            const v = item && item[key] ? String(item[key]).trim() : '';
+            return v || (o && o[key]) || '';
+        };
+        return {
+            name: pick('shipName'),
+            zip: pick('shipZip'),
+            pref: pick('shipPref'),
+            addr: pick('shipAddr1'),
+            addr2: pick('shipAddr2'),
+            phone: pick('shipPhone')
+        };
+    }
+    // 送り先を比較用キーに変換（全角/半角スペースの揺れは無視する）
+    function shipKey(s) {
+        const norm = v => String(v || '').replace(/\s+/g, '');
+        // 番地（addr）だけでなく都道府県・建物名/部屋番号（addr2）も比較に含めないと、
+        // 異なる送り先（号室違い等）が同一とみなされ取りこぼされる
+        return [norm(s.name), norm(s.zip), norm(s.pref), norm(s.addr), norm(s.addr2), norm(s.phone)].join('|');
+    }
+
+    function renderDetailModal() {
+        const o = detailGroup[detailIndex];
+        const total = detailGroup.length;
+
+        // ナビゲーション
+        document.getElementById('navPrev').disabled = detailIndex === 0;
+        document.getElementById('navNext').disabled = detailIndex === total - 1;
+        document.getElementById('navLabel').textContent =
+            total > 1 ? `同一お客様 ${detailIndex + 1} / ${total} 件` : '';
+        document.getElementById('modalTitle').textContent =
+            `注文詳細 — ${o.no}`;
+
+        const shipAddr = [o.shipZip ? `〒${o.shipZip}` : '', o.shipPref, o.shipAddr1, o.shipAddr2].filter(Boolean).join(' ');
+        const ordererAddr = [o.ordererZip ? `〒${o.ordererZip}` : '', o.ordererPref, o.ordererAddr1, o.ordererAddr2].filter(Boolean).join(' ');
+        const groupLabel = o.group === '1' ? '⚡ 即発送' : o.group === '2' ? '🎫 お仕立券' : '-';
+
+        // 商品ごとに送り先を解決し、注文の代表送り先（1行目＝o.shipName等）と異なるものがあるか判定
+        const baseKey = shipKey({ name: o.shipName, zip: o.shipZip, pref: o.shipPref, addr: o.shipAddr1, addr2: o.shipAddr2, phone: o.shipPhone });
+        const itemShips = o.items.map(item => getItemShip(item, o));
+        const hasShipConflict = itemShips.some(s => shipKey(s) !== baseKey);
+
+        // すべての送り先を集計する（同一お客様番号の全注文 × 各注文の商品ごとの送り先）。
+        // ※従来は「この注文の代表送り先」1件だけを常に表示しており、
+        //   1つの注文の中で商品ごとに送り先が違っても代表先しか見えず、
+        //   同一お客様番号で別の注文が複数あってもそれらの送り先も一切表示されなかった。
+        const allShips = [];
+        detailGroup.forEach((x, idx) => {
+            const xItems = Array.isArray(x.items) ? x.items : [];
+            const xShipList = xItems.length > 0
+                ? xItems.map(item => getItemShip(item, x))
+                : [getItemShip(null, x)];
+
+            xShipList.forEach(s => {
+                const key = shipKey(s);
+                const existing = allShips.find(e => e.key === key);
+                if (existing) {
+                    if (!existing.orders.includes(x.no)) existing.orders.push(x.no);
+                    if (idx === detailIndex) existing.isPrimary = true;
+                } else {
+                    const addr = [s.zip ? `〒${s.zip}` : '', s.pref, s.addr, s.addr2].filter(Boolean).join(' ');
+                    allShips.push({
+                        key,
+                        name: s.name,
+                        phone: s.phone,
+                        addr: addr,
+                        orders: [x.no],
+                        isPrimary: idx === detailIndex
+                    });
+                }
+            });
+        });
+
+        const multiShipCount = allShips.length;
+        const isTotalShipConflict = multiShipCount > 1;
+
+        // 送り先がちょうど1件のときだけシンプル表示、2件以上あれば必ずカード形式で全件表示する
+        let shipDisplayHTML = '';
+        if (multiShipCount > 1) {
+            shipDisplayHTML = '<div class="ship-list">';
+            allShips.forEach((ship, idx) => {
+                const isPrimary = ship.isPrimary;
+                const containerClass = isPrimary ? 'ship-container primary' : 'ship-container alternate';
+                const badge = isPrimary
+                    ? `<span class="primary-badge">📍 この注文</span>`
+                    : `<span class="alternate-badge">🔗 ${ship.orders.join('、')}</span>`;
+
+                shipDisplayHTML += `
+                <div class="${containerClass}">
+                    <h5>送り先 ${idx + 1} ${badge}</h5>
+                    <div class="ship-row">
+                        <div class="ship-row-label">氏名</div>
+                        <div class="ship-row-value">${ship.name || '-'} 様</div>
+                    </div>
+                    <div class="ship-row">
+                        <div class="ship-row-label">電話</div>
+                        <div class="ship-row-value">${ship.phone || '-'}</div>
+                    </div>
+                    <div class="ship-row">
+                        <div class="ship-row-label">住所</div>
+                        <div class="ship-row-value">${ship.addr || '-'}</div>
+                    </div>
+                </div>`;
+            });
+            shipDisplayHTML += '</div>';
+        } else {
+            // 送り先が1件だけの場合：通常表示
+            shipDisplayHTML = `
+            <div class="detail-row"><span class="lbl">氏名</span><span class="val">${o.shipName || '-'} 様</span></div>
+            <div class="detail-row"><span class="lbl">電話番号</span><span class="val">${o.shipPhone || '-'}</span></div>
+            <div class="detail-row"><span class="lbl">住所</span><span class="val">${shipAddr || '-'}</span></div>`;
+        }
+
+        const itemsHTML = o.items.map((item, i) => {
+            const s = itemShips[i];
+            const diff = hasShipConflict && shipKey(s) !== baseKey;
+            const shipCell = !hasShipConflict ? '' : `
+                <td>${diff
+                    ? `<span class="ship-tag" title="〒${s.zip || '-'}　${s.addr || '-'}　${s.phone || '-'}">⚠️ ${s.name || '不明'} 様</span>`
+                    : '<span style="color:#bbb;">同上</span>'}</td>`;
+            return `
+            <tr class="${diff ? 'ship-diff-row' : ''}">
+                <td>${i + 1}．${item.name}</td>
+                <td>${item.spec || '-'}</td>
+                ${shipCell}
+                <td style="text-align:right;">${item.price !== '' ? Number(item.price).toLocaleString() + ' 円' : '-'}</td>
+                <td style="text-align:center;">${item.qty}</td>
+                <td style="text-align:right;">${item.amount !== '' ? Number(item.amount).toLocaleString() + ' 円' : '-'}</td>
+            </tr>`;
+        }).join('');
+
+        document.getElementById('modalBody').innerHTML = `
+        <div class="modal-body-inner">
+            <div class="detail-cards">
+                <!-- 基本情報 -->
+                <div class="detail-card">
+                    <h4>📋 基本情報</h4>
+                    <div class="detail-row"><span class="lbl">お客様番号</span><span class="val">${o.id || '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">注文日</span><span class="val">${o.date || '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">ステータス</span><span class="val">${o.status}</span></div>
+                    <div class="detail-row"><span class="lbl">グループ</span><span class="val">${groupLabel}</span></div>
+                    <div class="detail-row"><span class="lbl">備考</span><span class="val">${o.note || '-'}</span></div>
+                </div>
+                <!-- 請求情報 -->
+                <div class="detail-card">
+                    <h4>💴 請求・決済</h4>
+                    <div class="detail-row"><span class="lbl">請求金額</span><span class="val highlight">${o.billing !== '' ? Number(o.billing).toLocaleString() + ' 円' : '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">決済方法</span><span class="val">${o.payment || '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">代引手数料</span><span class="val">${o.codFee !== '' ? Number(o.codFee).toLocaleString() + ' 円' : '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">送料</span><span class="val">${o.postage !== '' ? Number(o.postage).toLocaleString() + ' 円' : '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">ポイント</span><span class="val">${o.point !== '' ? Number(o.point).toLocaleString() + ' 円' : '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">クーポン</span><span class="val">${o.coupon !== '' ? Number(o.coupon).toLocaleString() + ' 円' : '-'}</span></div>
+                </div>
+                <!-- 注文者 -->
+                <div class="detail-card">
+                    <h4>👤 注文者</h4>
+                    <div class="detail-row"><span class="lbl">氏名</span><span class="val">${o.name || '-'} 様</span></div>
+                    <div class="detail-row"><span class="lbl">電話番号</span><span class="val">${o.ordererPhone || '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">住所</span><span class="val">${ordererAddr || '-'}</span></div>
+                    <div class="detail-row"><span class="lbl">メール</span><span class="val">${o.ordererEmail || '-'}</span></div>
+                </div>
+                <!-- 送付先 -->
+                <div class="detail-card${isTotalShipConflict || hasShipConflict ? ' ship-conflict' : ''}${multiShipCount > 1 ? ' full' : ''}">
+                    <h4>📦 キット送り先${isTotalShipConflict ? '<span class="ship-warn-badge">⚠️ 複数送り先</span>' : ''}</h4>
+                    ${shipDisplayHTML}
+                    ${hasShipConflict ? '<div class="ship-warn-note">⚠ この注文内で商品ごとに送り先が異なります。下の商品一覧をご確認ください。</div>' : ''}
+                </div>
+            </div>
+            <!-- 商品一覧 -->
+            <div style="font-size:12px;font-weight:bold;color:#5c6bc0;margin-bottom:8px;letter-spacing:0.05em;">🛍 注文商品</div>
+            <table class="detail-table">
+                <thead><tr><th>商品名</th><th>規格</th>${hasShipConflict ? '<th>送り先</th>' : ''}<th>単価</th><th>個数</th><th>金額</th></tr></thead>
+                <tbody>${itemsHTML}</tbody>
+            </table>
+            <div class="total-bar">合計金額：${o.total !== '' && o.total != null ? Number(o.total).toLocaleString() + ' 円' : '-'}</div>
+            <div class="billing-bar">請求金額：${o.billing !== '' && o.billing != null ? Number(o.billing).toLocaleString() + ' 円' : '-'}</div>
+        </div>`;
+    }
+
+    function closeModal() {
+        document.getElementById('detailModal').classList.remove('open');
+    }
+    document.getElementById('detailModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeModal();
+    });
+
+    async function updateStatus(no, val, selectEl) {
+        const o = orderData.find(x => x.no === no);
+        if (!o) return;
+        const prev = o.status;
+        if (!confirm(`ステータスを「${prev}」→「${val}」に変更してよろしいですか？`)) {
+            selectEl.value = prev;
+            return;
+        }
+        o.status = val;
+        await saveOrders();
+        updateSidebarCounts();
+    }
+
+    // ---- 同一お客様番号グループの判定・絞り込み（CSV/PDF出力共通ロジック） ----
+    // 指定の注文と同じお客様番号を持つ注文を、システム内の全注文（orderData）から取得する。
+    // 詳細モーダルの「同一お客様番号ナビゲーション」（detailGroup）と同じ考え方で、
+    // チェック有無に関わらずその顧客の全注文を見て、キット重複送付などを防ぐ。
+    function getSameCustomerOrders(o) {
+        if (!o.id) return [o];
+        return orderData.filter(x => x.id === o.id);
+    }
+
+    // 注文のキット送り先を比較用キーにする（明細モーダルの shipKey と同じロジック）
+    function customerShipKey(o) {
+        return shipKey({ name: o.shipName, zip: o.shipZip, pref: o.shipPref, addr: o.shipAddr1, addr2: o.shipAddr2, phone: o.shipPhone });
+    }
+
+    // 同一お客様番号の注文（単独1件でも、複数注文でも）が全件「グループ3」かどうか
+    // → 単独1件だけの注文がグループ3の場合も、ここでtrueになりCSV/PDFとも出力対象から除外される
+    function isAllGroup3(sameCustomerOrders) {
+        return sameCustomerOrders.length > 0 && sameCustomerOrders.every(x => x.group === '3');
+    }
+
+    // CSV/PDF出力対象の注文を「同一お客様番号グループ」単位にまとめる。
+    //   ・全件グループ3（単独1件のみの場合も含む）        → グループごと出力対象から除外（CSV・PDF共通）
+    //   ・複数注文かつグループ2が1件以上含まれる          → merge:true
+    //       （CSVはキット送り先が異なる注文だけ残す／PDFは1ページにまとめる、の元データとして使う）
+    //   ・それ以外（グループ2を含まない単独注文／複数注文）→ merge:false（従来どおり注文ごとに出力）
+    function groupOrdersByCustomer(orders) {
+        const processedIds = new Set();
+        const groups = [];
+        orders.forEach(o => {
+            const idKey = o.id || `__no_id_${o.no}`;
+            if (processedIds.has(idKey)) return; // このidは判定済み（mergeするかどうか決定済み）
+            processedIds.add(idKey);
+
+            const sameCustomerOrders = getSameCustomerOrders(o);
+
+            if (isAllGroup3(sameCustomerOrders)) {
+                return; // 出力対象から除外
+            }
+
+            if (sameCustomerOrders.length > 1 && sameCustomerOrders.some(x => x.group === '2')) {
+                // マージ対象：同一お客様番号の全注文をまとめて1グループにする
+                groups.push({ merge: true, orders: sameCustomerOrders });
+            } else {
+                // マージしない：渡された orders の中で同じお客様番号を持つ注文を、取りこぼさず個別に出力する
+                const sameIdInInput = orders.filter(x => (x.id || `__no_id_${x.no}`) === idKey);
+                sameIdInInput.forEach(x => groups.push({ merge: false, orders: [x] }));
+            }
+        });
+        return groups;
+    }
+
+    // CSV用：groupOrdersByCustomer の結果を、実際にCSVへ出力する注文の配列に変換する。
+    // merge:true のグループは、キット送り先が同じ注文をまとめて1件だけ残す（送り先が違う分だけ出力）。
+    function resolveCsvExportList(orders) {
+        const groups = groupOrdersByCustomer(orders);
+        const result = [];
+        groups.forEach(g => {
+            if (!g.merge) {
+                result.push(...g.orders);
+                return;
+            }
+            const seenShip = new Set();
+            g.orders.forEach(x => {
+                const key = customerShipKey(x);
+                if (!seenShip.has(key)) {
+                    seenShip.add(key);
+                    result.push(x);
+                }
+            });
+        });
+        return result;
+    }
+
+    // ---- CSV出力ヘルパー（一覧から外部へ書き出す用。Excel取り込みとは無関係） ----
+    // TODO: 現状は「受注」ステータス向けの項目・並びのみ実装。
+    //       他ステータスのCSV仕様が決まり次第、o.status に応じて cols / 出力項目を分岐する。
+    function toCSV(orders) {
+        const cols = ['お客様番号','楽天№','注文日','ご注文者','注文数','ステータス','グループ','備考'];
+        const header = cols.join(',');
+        const body = orders.map(o => [
+            o.id, o.no, o.date, o.name, o.qty, o.status,
+            o.group === '1' ? '即発送' : o.group === '2' ? 'お仕立券' : '',
+            o.note || ''
+        ].map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+        return '\uFEFF' + header + '\n' + body;
+    }
+
+    function downloadCSV(content, filename) {
+        const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+    }
+
+    function exportOneCSV(no) {
+        const o = orderData.find(x => x.no === no);
+        if (!o) return;
+        const exportList = resolveCsvExportList([o]);
+        if (!exportList.length) {
+            alert('同一お客様番号の注文がすべて「グループ3」のため、出力対象がありません');
+            return;
+        }
+        const label = exportList.length > 1
+            ? `お客様番号「${o.id}」のCSV（キット送り先${exportList.length}件分）`
+            : `楽天№「${o.no}」のCSV`;
+        if (!confirm(`${label}を出力してよろしいですか？`)) return;
+        downloadCSV(toCSV(exportList), `order_${o.id || no}.csv`);
+        exportList.forEach(x => {
+            x.csvSent = true;
+            // 即発送: CSV出力でステータスを「作成・出荷待ち」へ
+            if (x.group === '1') {
+                x.status = '作成・出荷待ち';
+            }
+            // お仕立券: CSV+PDF両方出力済みなら「返信待ち」へ
+            if (x.group === '2' && x.pdfSent) {
+                x.status = '返信待ち';
+            }
+        });
+        renderTable(getFilteredData());
+    }
+
+    function bulkExportCSV() {
+        const targets = getCheckedOrders();
+        if (!targets.length) { alert('チェックされた注文がありません'); return; }
+        const exportList = resolveCsvExportList(targets);
+        if (!exportList.length) {
+            alert('選択した注文は同一お客様番号内ですべて「グループ3」のため、出力対象がありません');
+            return;
+        }
+        if (!confirm(`${exportList.length} 件をまとめてCSV出力してよろしいですか？`)) return;
+        downloadCSV(toCSV(exportList), `orders_bulk_${today()}.csv`);
+        exportList.forEach(o => {
+            o.csvSent = true;
+            if (o.group === '1') o.status = '作成・出荷待ち';
+            if (o.group === '2' && o.pdfSent) o.status = '返信待ち';
+        });
+        renderTable(getFilteredData());
+    }
+
+    // ---- PDF出力（印刷ダイアログ使用） ----
+    // TODO: 現状は「受注」ステータス向けの注文票レイアウトのみ実装。
+    //       他ステータスのPDF仕様が決まり次第、o.status に応じてテンプレートを分岐する。
+    function buildPrintHTML(groups) {
+        const pages = groups.map(g => g.merge ? buildMergedCustomerPage(g.orders) : buildSingleOrderPage(g.orders[0])).join('');
+        return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+        <title>注文票</title>
+        <style>
+            body { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; }
+            .page { page-break-after: always; padding: 24px; }
+            .page:last-child { page-break-after: auto; }
+            h2 { font-size: 16px; margin-bottom: 8px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+            th { background: #34495e; color: white; padding: 6px 10px; text-align: left; }
+            td { padding: 6px 10px; border-bottom: 1px solid #ddd; }
+            .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+            .meta div label { font-size: 11px; color: #888; display: block; }
+            .merged-order { margin-bottom: 16px; }
+            .merged-order-title { font-size: 13px; font-weight: bold; color: #3949ab; margin: 0 0 6px; }
+            .order-divider { border: none; border-top: 1px dashed #bbb; margin: 18px 0; }
+        </style></head><body>` + pages + `</body></html>`;
+    }
+
+    // 単独の注文票（1注文＝1ページ。従来どおりの出力）
+    function buildSingleOrderPage(o) {
+        return `
+            <div class="page">
+                <h2>注文票 — ${o.no}</h2>
+                <div class="meta">
+                    <div><label>お客様番号</label>${o.id || '-'}</div>
+                    <div><label>注文日</label>${o.date}</div>
+                    <div><label>ご注文者</label>${o.name} 様</div>
+                    <div><label>ステータス</label>${o.status}</div>
+                    <div><label>合計金額</label>${o.total || '-'} 円</div>
+                    <div><label>備考</label>${o.note || '-'}</div>
+                </div>
+                <table>
+                    <thead><tr><th>商品名</th><th>規格</th><th>単価</th><th>個数</th><th>金額</th></tr></thead>
+                    <tbody>${o.items.map(item => `
+                        <tr><td>${item.name}</td><td>${item.spec}</td><td>${item.price}</td><td>${item.qty}</td><td>${item.amount}</td></tr>
+                    `).join('')}</tbody>
+                </table>
+            </div>`;
+    }
+
+    // 同一お客様番号の複数注文（グループ2を含む）を1ページにまとめた注文票
+    function buildMergedCustomerPage(orders) {
+        const o0 = orders[0];
+        return `
+            <div class="page">
+                <h2>注文票 — お客様番号 ${o0.id || '-'}（同一お客様 ${orders.length}件）</h2>
+                ${orders.map(o => `
+                    <div class="merged-order">
+                        <div class="merged-order-title">楽天№ ${o.no}</div>
+                        <div class="meta">
+                            <div><label>注文日</label>${o.date}</div>
+                            <div><label>ご注文者</label>${o.name} 様</div>
+                            <div><label>ステータス</label>${o.status}</div>
+                            <div><label>合計金額</label>${o.total || '-'} 円</div>
+                            <div><label>備考</label>${o.note || '-'}</div>
+                        </div>
+                        <table>
+                            <thead><tr><th>商品名</th><th>規格</th><th>単価</th><th>個数</th><th>金額</th></tr></thead>
+                            <tbody>${o.items.map(item => `
+                                <tr><td>${item.name}</td><td>${item.spec}</td><td>${item.price}</td><td>${item.qty}</td><td>${item.amount}</td></tr>
+                            `).join('')}</tbody>
+                        </table>
+                    </div>`).join('<hr class="order-divider">')}
+            </div>`;
+    }
+
+    // 戻り値：実際に印刷対象となった注文の配列（グループ3のみのグループは除外済み）。
+    // 出力対象が無ければアラートを出して null を返す。
+    function printOrders(orders) {
+        if (!orders.length) { alert('対象の注文がありません'); return null; }
+        const groups = groupOrdersByCustomer(orders);
+        if (!groups.length) {
+            alert('対象の注文は同一お客様番号内ですべて「グループ3」のため、出力対象がありません');
+            return null;
+        }
+        const w = window.open('', '_blank');
+        w.document.write(buildPrintHTML(groups));
+        w.document.close();
+        w.onload = () => { w.focus(); w.print(); };
+        return groups.flatMap(g => g.orders);
+    }
+
+    function exportOnePDF(no) {
+        const o = orderData.find(x => x.no === no);
+        if (!o) return;
+        if (!confirm(`楽天№「${o.no}」のPDFを出力してよろしいですか？`)) return;
+        const printed = printOrders([o]);
+        if (!printed) return;
+        printed.forEach(x => {
+            x.pdfSent = true;
+            // お仕立券: CSV+PDF両方出力済みなら「返信待ち」へ
+            if (x.group === '2' && x.csvSent) {
+                x.status = '返信待ち';
+            }
+        });
+        renderTable(getFilteredData());
+    }
+
+    function bulkExportPDF() {
+        const targets = getCheckedOrders();
+        if (!targets.length) { alert('チェックされた注文がありません'); return; }
+        if (!confirm(`選択した ${targets.length} 件をまとめてPDF出力してよろしいですか？`)) return;
+        printOrders(targets);
+    }
+
+    // ---- ユーティリティ ----
+    function getCheckedOrders() {
+        const checked = [...document.querySelectorAll('.row-check:checked')].map(cb => cb.dataset.no);
+        return orderData.filter(o => checked.includes(o.no));
+    }
+
+    function updateBulkCount() {
+        const n = document.querySelectorAll('.row-check:checked').length;
+        document.getElementById('bulkCount').textContent = `${n}件選択中`;
+    }
+
+    function toggleAll(el) {
+        document.querySelectorAll('.row-check').forEach(cb => { cb.checked = el.checked; });
+        updateBulkCount();
+    }
+
+    function filterData(status, el) {
+        document.querySelectorAll('.status-item').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        currentFilter = status;
+        document.getElementById('selectAll').checked = false;
+        renderTable(getFilteredData());
+        updateImportPanelVisibility();
+    }
+
+    // データ取り込みパネルは「受注」ステータスを見ている時だけ表示する
+    function updateImportPanelVisibility() {
+        document.getElementById('importPanel').classList.toggle('hidden', currentFilter !== '受注');
+    }
+
+    function openChat(no) {
+        alert(`チャット機能: 楽天№ ${no}`);
+    }
+
+    function today() {
+        return new Date().toISOString().slice(0,10).replace(/-/g,'');
+    }
+</script>
 </body>
 </html>
