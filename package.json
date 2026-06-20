@@ -1,0 +1,13 @@
+{
+  "name": "sales-search-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Excel集計表（マクロブック）を検索して進捗管理一覧に反映するローカルシステム",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "xlsx": "^0.18.5"
+  }
+}
