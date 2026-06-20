@@ -166,9 +166,9 @@
         .chat-icon:hover { color: var(--primary); }
 
         /* モーダル */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); z-index: 1000; justify-content: center; align-items: flex-start; padding-top: 40px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); z-index: 1000; justify-content: center; align-items: flex-start; padding-top: 40px; overflow-y: auto; }
         .modal-overlay.open { display: flex; }
-        .modal { background: white; border-radius: 12px; width: 92%; max-width: 900px; max-height: 85vh; overflow-y: auto; padding: 0; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+        .modal { background: white; border-radius: 12px; width: 92%; max-width: 900px; max-height: 85vh; overflow-y: auto; padding: 0; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.2); margin-bottom: 40px; }
         .modal-close { position: absolute; top: 14px; right: 16px; font-size: 20px; cursor: pointer; color: #fff; border: none; background: none; z-index: 10; opacity: 0.8; }
         .modal-close:hover { opacity: 1; }
 
@@ -213,6 +213,78 @@
         tr.ship-diff-row td { background: #fdf3f1 !important; }
         .total-bar { background: #eef0fb; border-radius: 6px; padding: 10px 16px; text-align: right; font-size: 15px; font-weight: bold; color: #3949ab; margin-top: 10px; }
         .billing-bar { background: #f3f0fb; border-radius: 6px; padding: 10px 16px; text-align: right; font-size: 15px; font-weight: bold; color: #5c6bc0; margin-top: 6px; }
+
+        /* 複数送り先表示用スタイル */
+        .ship-container {
+            background: #f8f9fc;
+            border: 1px solid #e0e3f0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+        .ship-container.primary {
+            border-left: 4px solid #5c6bc0;
+            background: #f2f4fc;
+        }
+        .ship-container.alternate {
+            border-left: 4px solid #e67e22;
+            background: #fdf6ec;
+        }
+        .ship-container h5 {
+            margin: 0 0 12px 0;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ship-container .primary-badge {
+            display: inline-block;
+            background: #5c6bc0;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+        .ship-container .alternate-badge {
+            display: inline-block;
+            background: #e67e22;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+        .ship-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 6px 0;
+            border-bottom: 1px solid #e8e8e8;
+            font-size: 13px;
+        }
+        .ship-row:last-child {
+            border-bottom: none;
+        }
+        .ship-row-label {
+            color: #888;
+            font-weight: bold;
+            min-width: 70px;
+            font-size: 12px;
+        }
+        .ship-row-value {
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: right;
+            flex: 1;
+            word-break: break-word;
+            margin-left: 16px;
+        }
+        .ship-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
         /* 行クリック */
         tbody tr { cursor: pointer; }
@@ -368,7 +440,7 @@
                                 <input type="text" id="idTo" placeholder="お客様番号 To">
                                 <span class="hint-icon" title="数字のみ／アルファベット始まりの番号、どちらも検索できます">ℹ️</span>
                             </span>
-                            <button class="btn btn-search" onclick="searchOrders()" title="Excelから条件に一致する新規受注を取り込み、システムに反映します">📥 取り込む</button>
+                            <button class="btn btn-search" onclick="searchOrders()" title="Excelから条件に一致する新規受注を取り込み、システムに反映します">📥 取り込み</button>
                             <button class="btn btn-clear" onclick="clearImportPanel()">クリア</button>
                             <span id="searchStatus"></span>
                         </div>
@@ -696,7 +768,7 @@
             const pdfStyle = pdfSent ? 'opacity:0.4;cursor:default;pointer-events:none;' : '';
 
             const pdfBadge = o.group === '2'
-                ? `<button class="btn-xs pdf" style="${pdfStyle}" ${pdfSent ? 'disabled' : `onclick="event.stopPropagation();exportOnePDF('${o.no}')"`} title="${pdfSent ? 'PDF出力済み' : 'PDFを出力'}">PDF</button>`
+                ? `<button class="btn-xs pdf" style="${pdfStyle}" ${pdfSent ? 'disabled' : `onclick="event.stopPropagation();exportOnePDF('${o.no}')"`} title="${pdfSent ? 'PDF出力済み' : 'PDFを出力'}" >PDF</button>`
                 : '';
 
             const actionBtns = o.group === '2'
@@ -711,7 +783,7 @@
                     <div class="id-cell">
                         <div class="id-top">
                             <span class="id-num">${o.id || ''}</span>
-                            <button class="btn-xs csv" style="${csvStyle}" ${csvSent ? 'disabled' : `onclick="event.stopPropagation();exportOneCSV('${o.no}')"`} title="${csvSent ? 'CSV出力済み' : 'CSVを出力'}">CSV</button>
+                            <button class="btn-xs csv" style="${csvStyle}" ${csvSent ? 'disabled' : `onclick="event.stopPropagation();exportOneCSV('${o.no}')"`} title="${csvSent ? 'CSV出力済み' : 'CSVを出力'}" >CSV</button>
                             ${pdfBadge}
                         </div>
                     </div>
@@ -811,39 +883,70 @@
         const hasShipConflict = itemShips.some(s => shipKey(s) !== baseKey);
 
         // 同一お客様番号の中で、キット送り先が異なる他の注文情報を抽出
-        let alternateShipsHTML = '';
+        let shipDisplayHTML = '';
+        
         if (total > 1) {
-            const alternateOrders = detailGroup.filter(x => {
-                if (!x) return false;
-                const xKey = shipKey({ name: x.shipName, zip: x.shipZip, addr: x.shipAddr1, phone: x.shipPhone });
-                return xKey !== baseKey;
+            // 複数注文がある場合：すべての送り先をリスト表示
+            const allShips = [];
+            detailGroup.forEach((x, idx) => {
+                if (x) {
+                    const key = shipKey({ name: x.shipName, zip: x.shipZip, addr: x.shipAddr1, phone: x.shipPhone });
+                    const existing = allShips.find(s => s.key === key);
+                    if (existing) {
+                        existing.orders.push(x.no);
+                    } else {
+                        allShips.push({
+                            key,
+                            name: x.shipName,
+                            phone: x.shipPhone,
+                            zip: x.shipZip,
+                            pref: x.shipPref,
+                            addr1: x.shipAddr1,
+                            addr2: x.shipAddr2,
+                            orders: [x.no],
+                            isPrimary: idx === detailIndex
+                        });
+                    }
+                }
             });
 
-            if (alternateOrders.length > 0) {
-                const seenKeys = new Set();
-                const uniqueAlternates = [];
-                alternateOrders.forEach(x => {
-                    const xKey = shipKey({ name: x.shipName, zip: x.shipZip, addr: x.shipAddr1, phone: x.shipPhone });
-                    if (!seenKeys.has(xKey)) {
-                        seenKeys.add(xKey);
-                        uniqueAlternates.push(x);
-                    }
-                });
-
-                alternateShipsHTML = uniqueAlternates.map(x => {
-                    const altAddr = [x.shipZip ? `〒${x.shipZip}` : '', x.shipPref, x.shipAddr1, x.shipAddr2].filter(Boolean).join(' ');
-                    return `
-                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #f0b8af;">
-                        <span class="badge bg-ticket" style="margin-bottom:6px;">別注文の送り先 (楽天№: ${x.no || ''})</span>
-                        <div class="detail-row"><span class="lbl">氏名</span><span class="val">${x.shipName || '-'} 様</span></div>
-                        <div class="detail-row"><span class="lbl">電話番号</span><span class="val">${x.shipPhone || '-'}</span></div>
-                        <div class="detail-row"><span class="lbl">住所</span><span class="val">${altAddr || '-'}</span></div>
-                    </div>`;
-                }).join('');
-            }
+            shipDisplayHTML = '<div class="ship-list">';
+            allShips.forEach((ship, idx) => {
+                const isPrimary = ship.isPrimary;
+                const containerClass = isPrimary ? 'ship-container primary' : 'ship-container alternate';
+                const badge = isPrimary 
+                    ? `<span class="primary-badge">📍 この注文</span>` 
+                    : `<span class="alternate-badge">🔗 ${ship.orders.join('、')}</span>`;
+                
+                const addr = [ship.zip ? `〒${ship.zip}` : '', ship.pref, ship.addr1, ship.addr2].filter(Boolean).join(' ');
+                
+                shipDisplayHTML += `
+                <div class="${containerClass}">
+                    <h5>送り先 ${idx + 1} ${badge}</h5>
+                    <div class="ship-row">
+                        <div class="ship-row-label">氏名</div>
+                        <div class="ship-row-value">${ship.name || '-'} 様</div>
+                    </div>
+                    <div class="ship-row">
+                        <div class="ship-row-label">電話</div>
+                        <div class="ship-row-value">${ship.phone || '-'}</div>
+                    </div>
+                    <div class="ship-row">
+                        <div class="ship-row-label">住所</div>
+                        <div class="ship-row-value">${addr || '-'}</div>
+                    </div>
+                </div>`;
+            });
+            shipDisplayHTML += '</div>';
+        } else {
+            // 単一注文の場合：通常表示
+            shipDisplayHTML = `
+            <div class="detail-row"><span class="lbl">氏名</span><span class="val">${o.shipName || '-'} 様</span></div>
+            <div class="detail-row"><span class="lbl">電話番号</span><span class="val">${o.shipPhone || '-'}</span></div>
+            <div class="detail-row"><span class="lbl">住所</span><span class="val">${shipAddr || '-'}</span></div>`;
         }
 
-        const isTotalShipConflict = hasShipConflict || alternateShipsHTML !== '';
+        const isTotalShipConflict = total > 1 || hasShipConflict;
 
         const itemsHTML = items.map((item, i) => {
             if (!item) return '';
@@ -894,18 +997,15 @@
                     <div class="detail-row"><span class="lbl">住所</span><span class="val">${ordererAddr || '-'}</span></div>
                     <div class="detail-row"><span class="lbl">メール</span><span class="val">${o.ordererEmail || '-'}</span></div>
                 </div>
-                <div class="detail-card${isTotalShipConflict ? ' ship-conflict' : ''}">
-                    <h4>📦 キット送り先${isTotalShipConflict ? '<span class="ship-warn-badge">⚠️ 送り先不一致を検出</span>' : ''}</h4>
-                    <div class="detail-row"><span class="lbl">氏名</span><span class="val">${o.shipName || '-'} 様</span></div>
-                    <div class="detail-row"><span class="lbl">電話番号</span><span class="val">${o.shipPhone || '-'}</span></div>
-                    <div class="detail-row"><span class="lbl">住所</span><span class="val">${shipAddr || '-'}</span></div>
-                    ${hasShipConflict ? '<div class="ship-warn-note">⚠ この注文内で商品ごとに送り先が異なります。下の商品一覧をご確認ください。</div>' : ''}
-                    ${alternateShipsHTML}
+                <div class="detail-card${isTotalShipConflict && total === 1 ? ' ship-conflict' : ''}${total > 1 ? ' full' : ''}">
+                    <h4>📦 キット送り先${isTotalShipConflict ? '<span class="ship-warn-badge">⚠️ 複数送り先</span>' : ''}</h4>
+                    ${shipDisplayHTML}
+                    ${hasShipConflict && total === 1 ? '<div class="ship-warn-note">⚠ この注文内で商品ごとに送り先が異なります。下の商品一覧をご確認ください。</div>' : ''}
                 </div>
             </div>
             <div style="font-size:12px;font-weight:bold;color:#5c6bc0;margin-bottom:8px;letter-spacing:0.05em;">🛍 注文商品</div>
             <table class="detail-table">
-                <thead><tr><th>商品名</th><th>規格</th>${hasShipConflict ? '<th>送り先</th>' : ''}<th>単価</th><th>個数</th><th>金額</th></tr></thead>
+                <thead><tr><th>商品名</th><th>規格</th>${hasShipConflict && total === 1 ? '<th>送り先</th>' : ''}<th>単価</th><th>個数</th><th>金額</th></tr></thead>
                 <tbody>${itemsHTML}</tbody>
             </table>
             <div class="total-bar">合計金額：${(o.total !== '' && o.total != null) ? Number(o.total).toLocaleString() + ' 円' : '-'}</div>
@@ -998,48 +1098,23 @@
         <title>注文票</title>
         <style>
             body { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; }
-            .page { page-break-after: always; padding: 24px; }
-            .page:last-child { page-break-after: auto; }
-            h2 { font-size: 16px; margin-bottom: 8px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-            th { background: #34495e; color: white; padding: 6px 10px; text-align: left; }
-            td { padding: 6px 10px; border-bottom: 1px solid #ddd; }
-            .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
-            .meta div label { font-size: 11px; color: #888; display: block; }
-        </style></head><body>` +
-        orders.map(o => {
-            if (!o) return '';
-            const items = Array.isArray(o.items) ? o.items : [];
-            return `
-            <div class="page">
-                <h2>注文票 — ${o.no || ''}</h2>
-                <div class="meta">
-                    <div><label>お客様番号</label>${o.id || '-'}</div>
-                    <div><label>注文日</label>${o.date || ''}</div>
-                    <div><label>ご注文者</label>${o.name || ''} 様</div>
-                    <div><label>ステータス</label>${o.status || ''}</div>
-                    <div><label>合計金額</label>${o.total || '-'} 円</div>
-                    <div><label>備考</label>${o.note || '-'}</div>
-                </div>
-                <table>
-                    <thead><tr><th>商品名</th><th>規格</th><th>単価</th><th>個数</th><th>金額</th></tr></thead>
-                    <tbody>${items.map(item => {
-                        if (!item) return '';
-                        return `<tr><td>${item.name || ''}</td><td>${item.spec || ''}</td><td>${item.price || ''}</td><td>${item.qty || 0}</td><td>${item.amount || ''}</td></tr>`;
-                    }).join('')}</tbody>
-                </table>
-            </div>`;
-        }).join('') +
-        `</body></html>`;
-    }
-
-    function printOrders(orders) {
-        if (!orders || !orders.length) { alert('対象の注文がありません'); return; }
-        const w = window.open('', '_blank');
-        if (!w) { alert('ポップアップがブロックされました。許可してください。'); return; }
-        w.document.write(buildPrintHTML(orders));
-        w.document.close();
-        w.onload = () => { w.focus(); w.print(); };
+            .page { page-break-after: always; padding: 20px; border: 1px solid #ddd; margin-bottom: 10px; }
+            table { width: 100%; border-collapse: collapse; }
+            td, th { border: 1px solid #999; padding: 8px; text-align: left; }
+            .header { font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+        </style></head><body>
+        ${orders.map(o => `
+        <div class="page">
+            <div class="header">注文票：楽天№ ${o.no || ''}</div>
+            <table>
+                <tr><td><strong>お客様番号</strong></td><td>${o.id || ''}</td></tr>
+                <tr><td><strong>ご注文者</strong></td><td>${o.name || ''} 様</td></tr>
+                <tr><td><strong>注文日</strong></td><td>${o.date || ''}</td></tr>
+                <tr><td><strong>送付先</strong></td><td>${o.shipName || ''} 様<br>〒${o.shipZip || ''}<br>${o.shipPref || ''}${o.shipAddr1 || ''}${o.shipAddr2 || ''}<br>Tel: ${o.shipPhone || ''}</td></tr>
+            </table>
+        </div>
+        `).join('')}
+        </body></html>`;
     }
 
     function exportOnePDF(no) {
@@ -1047,7 +1122,11 @@
         const o = orderData.find(x => x && x.no === no);
         if (!o) return;
         if (!confirm(`楽天№「${o.no}」のPDFを出力してよろしいですか？`)) return;
-        printOrders([o]);
+        const html = buildPrintHTML([o]);
+        const win = window.open('', '', 'width=800,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.print();
         o.pdfSent = true;
         if (o.group === '2' && o.csvSent) {
             o.status = '返信待ち';
@@ -1059,50 +1138,52 @@
         const targets = getCheckedOrders();
         if (!targets.length) { alert('チェックされた注文がありません'); return; }
         if (!confirm(`選択した ${targets.length} 件をまとめてPDF出力してよろしいですか？`)) return;
-        printOrders(targets);
+        const html = buildPrintHTML(targets);
+        const win = window.open('', '', 'width=800,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.print();
+        targets.forEach(o => {
+            if (!o) return;
+            o.pdfSent = true;
+            if (o.group === '2' && o.csvSent) o.status = '返信待ち';
+        });
+        renderTable(getFilteredData());
     }
 
-    // ---- ユーティリティ ----
+    // ---- チェック処理 ----
     function getCheckedOrders() {
-        if (!Array.isArray(orderData)) return [];
-        const checked = [...document.querySelectorAll('.row-check:checked')].map(cb => cb.dataset.no);
-        return orderData.filter(o => o && checked.includes(o.no));
+        const checks = document.querySelectorAll('.row-check:checked');
+        const nos = Array.from(checks).map(c => c.dataset.no);
+        return orderData.filter(o => o && nos.includes(o.no));
     }
 
-    function updateBulkCount() {
-        const n = document.querySelectorAll('.row-check:checked').length;
-        const bCount = document.getElementById('bulkCount');
-        if (bCount) bCount.textContent = `${n}件選択中`;
-    }
-
-    function toggleAll(el) {
-        if (!el) return;
-        document.querySelectorAll('.row-check').forEach(cb => { cb.checked = el.checked; });
+    function toggleAll(checkbox) {
+        const checks = document.querySelectorAll('.row-check');
+        checks.forEach(c => c.checked = checkbox.checked);
         updateBulkCount();
     }
 
-    function filterData(status, el) {
-        if (!el) return;
-        document.querySelectorAll('.status-item').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
-        currentFilter = status;
-        const selectAll = document.getElementById('selectAll');
-        if (selectAll) selectAll.checked = false;
-        renderTable(getFilteredData());
-        updateImportPanelVisibility();
+    function updateBulkCount() {
+        const checked = document.querySelectorAll('.row-check:checked').length;
+        const el = document.getElementById('bulkCount');
+        if (el) el.textContent = checked + '件選択中';
     }
 
-    function updateImportPanelVisibility() {
-        const panel = document.getElementById('importPanel');
-        if (panel) panel.classList.toggle('hidden', currentFilter !== '受注');
+    function filterData(status, el) {
+        currentFilter = status;
+        document.querySelectorAll('.status-item').forEach(e => e.classList.remove('active'));
+        el.classList.add('active');
+        renderTable(getFilteredData());
     }
 
     function openChat(no) {
-        alert(`チャット機能: 楽天№ ${no}`);
+        alert('チャット機能：楽天№「' + no + '」のチャット画面に遷移します。');
     }
 
     function today() {
-        return new Date().toISOString().slice(0,10).replace(/-/g,'');
+        const d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     }
 </script>
 </body>
