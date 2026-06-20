@@ -166,9 +166,33 @@
         .chat-icon:hover { color: var(--primary); }
 
         /* モーダル */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); z-index: 1000; justify-content: center; align-items: flex-start; padding-top: 40px; overflow-y: auto; }
+        .modal-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.55); 
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
         .modal-overlay.open { display: flex; }
-        .modal { background: white; border-radius: 12px; width: 92%; max-width: 900px; max-height: 85vh; overflow-y: auto; padding: 0; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.2); margin-bottom: 40px; }
+        .modal { 
+            background: white; 
+            border-radius: 12px; 
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto; 
+            padding: 0; 
+            position: relative; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            margin: auto;
+        }
         .modal-close { position: absolute; top: 14px; right: 16px; font-size: 20px; cursor: pointer; color: #fff; border: none; background: none; z-index: 10; opacity: 0.8; }
         .modal-close:hover { opacity: 1; }
 
@@ -215,12 +239,16 @@
         .billing-bar { background: #f3f0fb; border-radius: 6px; padding: 10px 16px; text-align: right; font-size: 15px; font-weight: bold; color: #5c6bc0; margin-top: 6px; }
 
         /* 複数送り先表示用スタイル */
+        .ship-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
         .ship-container {
             background: #f8f9fc;
             border: 1px solid #e0e3f0;
             border-radius: 8px;
             padding: 14px 16px;
-            margin-bottom: 12px;
         }
         .ship-container.primary {
             border-left: 4px solid #5c6bc0;
@@ -279,11 +307,6 @@
             flex: 1;
             word-break: break-word;
             margin-left: 16px;
-        }
-        .ship-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
 
         /* 行クリック */
@@ -882,11 +905,10 @@
         const itemShips = items.map(item => getItemShip(item, o));
         const hasShipConflict = itemShips.some(s => shipKey(s) !== baseKey);
 
-        // 同一お客様番号の中で、キット送り先が異なる他の注文情報を抽出
+        // 複数注文がある場合：すべての送り先をリスト表示
         let shipDisplayHTML = '';
         
         if (total > 1) {
-            // 複数注文がある場合：すべての送り先をリスト表示
             const allShips = [];
             detailGroup.forEach((x, idx) => {
                 if (x) {
@@ -895,14 +917,12 @@
                     if (existing) {
                         existing.orders.push(x.no);
                     } else {
+                        const addr = [x.shipZip ? `〒${x.shipZip}` : '', x.shipPref, x.shipAddr1, x.shipAddr2].filter(Boolean).join(' ');
                         allShips.push({
                             key,
                             name: x.shipName,
                             phone: x.shipPhone,
-                            zip: x.shipZip,
-                            pref: x.shipPref,
-                            addr1: x.shipAddr1,
-                            addr2: x.shipAddr2,
+                            addr: addr,
                             orders: [x.no],
                             isPrimary: idx === detailIndex
                         });
@@ -918,8 +938,6 @@
                     ? `<span class="primary-badge">📍 この注文</span>` 
                     : `<span class="alternate-badge">🔗 ${ship.orders.join('、')}</span>`;
                 
-                const addr = [ship.zip ? `〒${ship.zip}` : '', ship.pref, ship.addr1, ship.addr2].filter(Boolean).join(' ');
-                
                 shipDisplayHTML += `
                 <div class="${containerClass}">
                     <h5>送り先 ${idx + 1} ${badge}</h5>
@@ -933,7 +951,7 @@
                     </div>
                     <div class="ship-row">
                         <div class="ship-row-label">住所</div>
-                        <div class="ship-row-value">${addr || '-'}</div>
+                        <div class="ship-row-value">${ship.addr || '-'}</div>
                     </div>
                 </div>`;
             });
